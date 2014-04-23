@@ -48,7 +48,7 @@ function tag(str){
 			}
 		},
 		data: {
-			company: str,
+			company: ''+str,
 			username: 'test',
 			password: 'test'
 		}
@@ -97,7 +97,6 @@ var app = {
 
     scan: function() {
         console.log('scanning');
-        
         var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
         scanner.scan( function (result) { 
@@ -106,6 +105,8 @@ var app = {
 				window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
 			}
             
+			alert(args.text);
+			
             if (args.format == "QR_CODE") {
 				tag(args.text);
                 //window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
