@@ -101,7 +101,6 @@ var app = {
         scanner.scan( function (result) { 
 
 			if (!result.cancelled){
-				alert(result.text);
 				tag(result.text);
 				window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
 			}
