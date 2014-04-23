@@ -1,3 +1,61 @@
+$(document).ready(function(){
+	updateCard();
+	
+});
+
+function updateCard(){
+	$.ajax({
+		url:http://health.workplaymobile.com/badgeunit/api/getCard.json',
+		type: 'post',
+		//contentType: "application/json",
+		success: function (data) {
+			console.log(data);
+			if (data.result){
+				var num = data.profile.timesSeen;
+				
+				$("td").each(function() {
+					if (num-- > 0){
+						$(this).css('background-color', 'green');
+					}else{
+						$(this).css('background-color', '');
+					}
+				});
+				
+			}else{
+				bootbox.alert("Something went wrong...", function() {});
+			}
+		},
+		data: {
+			company: 3,
+			username: 'test',
+			password: 'test'
+		}
+	});
+}
+
+function tag(str){
+	$.ajax({
+		url:'http://health.workplaymobile.com/badgeunit/api/push/notify.json',
+		type: 'post',
+		//contentType: "application/json",
+		success: function (data) {
+			console.log(data);
+			if (data.result){
+				updateCard()
+			}else{
+				alert(data.msg);
+			}
+		},
+		data: {
+			company: str,
+			username: 'test',
+			password: 'test'
+		}
+	});
+
+}
+
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -10,7 +68,7 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.getElementById('scan').addEventListener('click', this.scan, false);
-        document.getElementById('encode').addEventListener('click', this.encode, false);
+        //document.getElementById('encode').addEventListener('click', this.encode, false);
     },
 
     // deviceready Event Handler
@@ -46,11 +104,12 @@ var app = {
 			if (!result.cancelled){
 				window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
 			}
-            /*
+            
             if (args.format == "QR_CODE") {
-                window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
+				tag(args.text);
+                //window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
             }
-            */
+            
 
         }, function (error) { 
 			alert("Scanning failed: ", error); 
