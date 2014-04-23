@@ -108,7 +108,11 @@ var app = {
 			alert(args.text);
 			
             if (args.format == "QR_CODE") {
-				tag(args.text);
+				try{
+					tag(args.text);
+				}catch(e){
+					alert(e);
+				}
                 //window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
             }
             
