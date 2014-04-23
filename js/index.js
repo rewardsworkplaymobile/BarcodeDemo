@@ -101,17 +101,19 @@ var app = {
         scanner.scan( function (result) { 
 
 			if (!result.cancelled){
-				//window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
+				alert(result.text);
+				tag(result.text);
+				window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
 			}
             
-            if (args.format == "QR_CODE") {
+            /*if (args.format == "QR_CODE") {
 				try{
 					tag(result.text);
 				}catch(e){
 					alert(e);
 				}
                 //window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
-            }
+            }*/
             
 
         }, function (error) { 
