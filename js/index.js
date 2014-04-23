@@ -34,7 +34,6 @@ function updateCard(){
 }
 
 function tag(str){
-	alert(str);
 	$.ajax({
 		url:'http://health.workplaymobile.com/badgeunit/api/push/notify.json',
 		type: 'post',
@@ -48,7 +47,7 @@ function tag(str){
 			}
 		},
 		data: {
-			company: ''+str,
+			company: str,
 			username: 'test',
 			password: 'test'
 		}
@@ -102,14 +101,12 @@ var app = {
         scanner.scan( function (result) { 
 
 			if (!result.cancelled){
-				window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
+				//window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
 			}
             
-			alert(args.text);
-			
             if (args.format == "QR_CODE") {
 				try{
-					tag(args.text);
+					tag(result.text);
 				}catch(e){
 					alert(e);
 				}
