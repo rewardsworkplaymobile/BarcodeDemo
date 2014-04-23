@@ -5,7 +5,7 @@ $(document).ready(function(){
 
 function updateCard(){
 	$.ajax({
-		url:http://health.workplaymobile.com/badgeunit/api/getCard.json',
+		url:'http://health.workplaymobile.com/badgeunit/api/getCard.json',
 		type: 'post',
 		//contentType: "application/json",
 		success: function (data) {
