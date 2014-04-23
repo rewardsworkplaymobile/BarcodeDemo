@@ -34,6 +34,7 @@ function updateCard(){
 }
 
 function tag(str){
+	alert(str);
 	$.ajax({
 		url:'http://health.workplaymobile.com/badgeunit/api/push/notify.json',
 		type: 'post',
@@ -41,7 +42,7 @@ function tag(str){
 		success: function (data) {
 			console.log(data);
 			if (data.result){
-				updateCard()
+				updateCard();
 			}else{
 				alert(data.msg);
 			}
