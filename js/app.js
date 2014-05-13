@@ -70,7 +70,7 @@ trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $ro
 
   this.updateCard = function() {
     console.log("Updating card...");
-  
+	
     $.ajax({
   		url:'http://health.workplaymobile.com/badgeunit/api/getCard.json',
   		type: 'post',
@@ -120,6 +120,7 @@ trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $ro
   }
   
   this.scan = function() {
+	alert('scan!!');
     console.log('scanning');
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
   
@@ -142,6 +143,7 @@ trueBlue.controller('loginController', function($scope, $rootScope, LoyalService
   $scope.pageClass = 'page-login';
   
   $(document).ready(function(){
+	alert('FIRST LOAD');
   	LoyalService.updateCard();
   });
   
@@ -165,16 +167,19 @@ trueBlue.controller('scanController', function($scope, $rootScope, LoyalService)
   $scope.pageClass = 'page-scan';
   
   $(document).ready(function() {
+	alert('doc ready!');
   	LoyalService.updateCard();
   	
   	setTimeout(function() {
   	  Demo.init();
   	}, 500);
     $('#container').bind("tap, click", function(e) {
-      //Demo.addCircle();
+		alert('SCAN TIME1');
+		Demo.addCircle();
       LoyalService.scan();
     });
     $('.counter').bind("tap, click", function(e) {
+		alert('SCAN TIME2');
       Demo.addCircle();
     });
   });
