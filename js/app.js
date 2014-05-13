@@ -69,36 +69,45 @@ trueBlue.config(function($routeProvider) {
 trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $rootScope) {
 
   this.updateCard = function() {
+	alert('updating card');
     console.log("Updating card...");
 	
-    $.ajax({
-  		url:'http://health.workplaymobile.com/badgeunit/api/getCard.json',
-  		type: 'post',
-  		//contentType: "application/json",
-  		success: function (data) {
-  			console.log(data);
-  			if (data.result){
-  				var num = data.profile.timesSeen;
-  				$rootScope.stamps = num;
-  				if ($('#container').length) {
-    				while (num != Demo.getTotal) {
-    				  Demo.addCircle();
-    				}
-  				}
-  			} else {
-  				bootbox.alert("Something went wrong...", function() {});
-  			}
-  		},
-  		data: {
-  			company: 3,
-  			username: 'test',
-  			password: 'test'
-  		}
-  	});
+	try{
+		$.ajax({
+			url:'http://health.workplaymobile.com/badgeunit/api/getCard.json',
+			type: 'post',
+			//contentType: "application/json",
+			success: function (data) {
+				alert(data);
+				console.log(data);
+				if (data.result){
+					var num = data.profile.timesSeen;
+					alert(num);
+					$rootScope.stamps = num;
+					if ($('#container').length) {
+						while (num != Demo.getTotal) {
+						  Demo.addCircle();
+						}
+					}
+				} else {
+					alert('something went wrong');
+				}
+			},
+			data: {
+				company: 3,
+				username: 'test',
+				password: 'test'
+			}
+		});
+	}catch(e){
+		alert(e);
+	}
    
   }
   
   this.tag = function(str) {
+	alert('tag!!');
+	alert(str);
   	$.ajax({
   		url:'http://health.workplaymobile.com/badgeunit/api/push/notify.json',
   		type: 'post',
@@ -176,7 +185,7 @@ trueBlue.controller('scanController', function($scope, $rootScope, LoyalService)
     $('#container').bind("tap, click", function(e) {
 		alert('SCAN TIME1');
 		Demo.addCircle();
-      LoyalService.scan();
+        LoyalService.scan();
     });
     $('.counter').bind("tap, click", function(e) {
 		alert('SCAN TIME2');
