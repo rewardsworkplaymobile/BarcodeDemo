@@ -69,7 +69,7 @@ trueBlue.config(function($routeProvider) {
 trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $rootScope) {
 
   this.updateCard = function() {
-      //alert('updating card');
+      alert('updating card');
     console.log("Updating card...");
       
       try{
@@ -82,13 +82,15 @@ trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $ro
                         console.log(data);
                         if (data.result){
                               var num = data.profile.timesSeen;
-                              //alert(num);
+                              alert(num);
+          alert(Demo.getTotal());
                               $rootScope.stamps = num;
                               //if ($('#container').length) {
                                     while (num != Demo.getTotal()) {
+                
                                       Demo.addCircle();
-                            //        }
-                              }
+                                    }
+                              //}
                         } else {
                               alert('something went wrong');
                         }
@@ -115,7 +117,7 @@ trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $ro
             success: function (data) {
                   console.log(data);
                   if (data.result){
-                        this.updateCard();
+                        LoyalService.updateCard();
                   } else {
                         alert(data.msg);
                   }
@@ -176,15 +178,12 @@ trueBlue.controller('scanController', function($scope, $rootScope, LoyalService)
   $scope.pageClass = 'page-scan';
   
   $(document).ready(function() {
-      //alert('doc ready!');
+      alert('doc ready!');
       
       
       setTimeout(function() {
         Demo.init();
-         
-       setTimeout(function(){
            LoyalService.updateCard();
-      }, 280);
       }, 500);
     $('.innerCircle').bind("tap, click", function(e) {
               //alert('SCAN TIME1');
