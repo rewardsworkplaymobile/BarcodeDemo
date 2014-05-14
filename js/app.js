@@ -131,14 +131,13 @@ trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $ro
   }
   
   this.scan = function() {
-	//alert('scan!!');
-	  
+	var parent = this;
     console.log('scanning');
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
   
     scanner.scan( function (result) { 
       if (!result.cancelled){
-      	this.tag(result.text);
+      	parent.tag(result.text);
       	window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
       }
     }, function (error) { 
