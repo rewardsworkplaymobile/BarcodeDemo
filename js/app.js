@@ -84,10 +84,10 @@ trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $ro
                               var num = data.profile.timesSeen;
                               //alert(num);
                               $rootScope.stamps = num;
-                              if ($('#container').length) {
+                              //if ($('#container').length) {
                                     while (num != Demo.getTotal()) {
                                       Demo.addCircle();
-                                    }
+                            //        }
                               }
                         } else {
                               alert('something went wrong');
@@ -135,7 +135,7 @@ trueBlue.service('LoyalService', ['$http', '$rootScope', function($http, $q, $ro
   
     scanner.scan( function (result) { 
       if (!result.cancelled){
-            this.tag(result.text);
+            LoyalService.tag(result.text);
             window.plugins.toast.showLongCenter('Found BarCode: [' + result.format +'] ' + result.text, function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})
       }
     }, function (error) { 
@@ -153,7 +153,7 @@ trueBlue.controller('loginController', function($scope, $rootScope, LoyalService
   
   $(document).ready(function(){
       //alert('FIRST LOAD');
-      LoyalService.updateCard();
+      //LoyalService.updateCard();
   });
   
   // login stuff
@@ -177,10 +177,14 @@ trueBlue.controller('scanController', function($scope, $rootScope, LoyalService)
   
   $(document).ready(function() {
       //alert('doc ready!');
-      LoyalService.updateCard();
+      
       
       setTimeout(function() {
         Demo.init();
+         
+       setTimeout(function(){
+           LoyalService.updateCard();
+      }, 280);
       }, 500);
     $('.innerCircle').bind("tap, click", function(e) {
               //alert('SCAN TIME1');
