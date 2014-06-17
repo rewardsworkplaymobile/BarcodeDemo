@@ -3,21 +3,44 @@
   <div class="innerCircle">
     <div class="text">Scan Code</div>
     <div id="container">
+      <div class="stamp empty"><div class="circle"></div></div>
+      <div class="stamp empty"><div class="circle"></div></div>
+      <div class="stamp empty"><div class="circle"></div></div>
+      <div class="stamp empty"><div class="circle"></div></div>
+      <div class="stamp empty"><div class="circle"></div></div>
+<!--       <canvas id="canvas"></canvas> -->
     </div>
   </div>
   <a href="#leaderboards" class="badge top5">1<sup>st</sup></a>
   <div class="counter">
-    <span class="current">-</span>/10
+    <span class="current">{{stamps}}</span>/5
   </div>
 </div>
 <div class="rewards">
-  <a href="#rewards" class="reward claim">
+  <a href="#rewards" class="reward claim" ng-if="availPrizes > 0">
+    {{availPrizes}} <ng-pluralize count="availPrizes" when="{
+                      '1': 'reward', 
+                      'other': 'rewards'}">
+                    </ng-pluralize>
+    available to be redeemed!
+    <div class="arrow right white"></div>
+  </a>
+<!--
+  <a href="#rewards" class="reward claim" type="community">
     Claim your Community Reward!
     <div class="arrow right white"></div>
   </a>
-  <a href="#rewards" class="reward">
-    {{10-stamps}} more until your first reward!
+-->
+  <a href="#rewards" class="reward" type="stamp">
+    {{5-stamps}} more until your next reward!
   </a>
 </div>
+<!--
+<script src="js/gyro.min.js"></script>
+<script src="js/Box2dWeb-2.1.a.3.min.js"></script>
+<script src="js/trueblue.ball.js"></script>
+-->
+<!--
 <script type="text/javascript" src="js/matter-0.8.0.min.js"></script>
 <script type="text/javascript" src="js/container2.js"></script>
+-->

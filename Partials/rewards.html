@@ -1,6 +1,7 @@
 <div class="scrollableContainer">
   <div class="rewards">
     <div class="sectionBar">Available Rewards</div>
+<!--
     <div class="reward claim">
       <div class="rewardAction">Community Reward!</div>
       <div class="rewardDesc">50% off any canvas</div>
@@ -10,9 +11,20 @@
       </div>
       <div class="arrow right white"></div>
     </div>
+-->
+<!--     <a class="restaurant_item" rID="{{restaurant.id}}" ng-click="selectRestaurant(restaurant.id)" ng-repeat="restaurant in restaurants | limitTo: 20 | filter:Filter | orderBy:'dist'"> -->
+    <a class="reward claim" href="#rewards/1" ng-repeat="i in getNumber(availPrizes) track by $index">
+      <div class="rewardAction">Stamp Reward!</div>
+      <div class="rewardDesc">One Free Mini Canvas ($20.00)</div>
+      <div class="prize">
+        <img src="imgs/prize_free.png" />
+        <div class="overlay"></div>
+      </div>
+      <div class="arrow right white"></div>
+    </a>
     <div class="sectionBar">Upcoming Rewards</div>
     <div class="reward">
-      <div class="rewardAction">11 more until your first reward!</div>
+      <div class="rewardAction">{{5-stamps}} more until this reward!</div>
       <div class="rewardDesc">One Free Mini Canvas ($20.00)</div>
       <div class="prize">
         <img src="imgs/prize_free.png" />
@@ -20,5 +32,13 @@
       </div>
     </div>
     <div class="sectionBar">Claimed/Expired Rewards</div>
+    <div class="reward claimed" ng-repeat="i in getNumber(redeemedPrizes) track by $index">
+      <div class="rewardAction">Stamp Reward!</div>
+      <div class="rewardDesc">One Free Mini Canvas ($20.00)</div>
+      <div class="prize">
+        <img src="imgs/prize_free.png" />
+        <div class="overlay"></div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,19 @@
+<div class="scrollableContainer">
+  <div class="rewards">
+    <div class="sectionBar">Redeem this Reward!</div>
+    <a class="reward claimed selected" href="#rewards" ng-repeat="i in getNumber(availPrizes) track by $index">
+      <div class="rewardAction">Stamp Reward!</div>
+      <div class="rewardDesc">One Free Mini Canvas ($20.00)</div>
+      <div class="prize">
+        <img src="imgs/prize_free.png" />
+        <div class="overlay"></div>
+      </div>
+      <div class="arrow left"></div>
+    </a>
+    <div class="sectionBar">Please pass your device to your server</div>
+    <form method="post" action="" id="redeemBox">
+      <input type="password" name="passcode" />
+      <input type="submit" value="Redeem" />
+    </form>
+  </div>
+</div>

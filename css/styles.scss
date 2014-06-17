@@ -275,12 +275,14 @@ body.inner {
     width: 90%;
     margin: 0 auto;
     position: relative;
+    z-index: 5;
     > img {
       vertical-align: top;
       width: 100%;
       height: auto;
     }
   }
+/*
   .circle {
     width: 41px;
     height: 41px;
@@ -293,6 +295,7 @@ body.inner {
     top: 0;
     left: 0;
   }
+*/
   .innerCircle {
     position: absolute;
     width: 95%;
@@ -300,6 +303,7 @@ body.inner {
     top: 2.5%;
     left: 2.5%;
     border-radius: 50%;
+    z-index: 100;
     .text {
       position: absolute;
       width: 100%;
@@ -318,6 +322,14 @@ body.inner {
       left: 0;
       z-index: 0;
       border-radius: 50%;
+      pointer-events: none;
+      transition: all 1s linear;
+      -webkit-transition: all 1s linear;
+    }
+    #canvas {
+      width: 100%;
+      height: 100%;
+      background: transparent;
     }
   }
   .badge {
@@ -352,6 +364,68 @@ body.inner {
     @include x-rem(font-size, 1.2);
     .current {
       @include x-rem(font-size, 2);
+    }
+  }
+  .stamp {
+    position: absolute;
+    z-index: 1;
+    height: 0;
+    width: 0;
+    height: 18.11%;
+    width: 18.11%;
+    transition: all 1s ease-in-out;
+    &:nth-child(1) {
+      left: 50%;
+      top: 25%;
+    }
+    &:nth-child(2) {
+      left: 73.7%;
+      top: 42.3%;
+    }
+    &:nth-child(3) {
+      left: 64.3%;
+      top: 70.18%;
+    }
+    &:nth-child(4) {
+      left: 35.4%;
+      top: 70.18%;
+    }
+    &:nth-child(5) {
+      left: 26.5%;
+      top: 42.3%;
+    }
+    .circle {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      border-radius: 50%;
+      margin-top: -50%;
+      margin-left: -50%;
+      transition: all 0.5s ease-in-out;
+      background-color: #B7D490;
+      box-shadow: inset -10px -10px 70px #8abf4b, inset -10px -10px 50px #81a15e, inset -5px -5px 10px #000, 0 0 5px #aaaaaa;
+    }
+    &.empty {
+      .circle {
+        background-color: #FFF;
+        box-shadow: inset 0 0 50px #555;
+        box-shadow: inset -10px -10px 70px #CCC, inset -10px -10px 50px #999, inset -5px -5px 10px #555;
+      }
+    }
+  }
+  .innerCircle {
+    #container.complete {
+      transform: rotateZ(360deg);
+      -webkit-transform: rotateZ(360deg);
+      .stamp {
+        left: 50%;
+        top: 50%;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        margin-top: 0;
+        margin-left: 0;
+      }
     }
   }
 }
@@ -427,6 +501,12 @@ a.sectionBar {
     @include display-inline-block();
     vertical-align: middle;
   }
+}
+
+.messageContent {
+  padding: 10px;
+  @include border-box();
+  text-align: center;
 }
 
 .rating {
@@ -592,6 +672,7 @@ a.sectionBar {
   bottom: 0;
   left: 0;
   width: 100%;
+  z-index: 10;
   .reward {
     position: relative;
     width: 100%;
@@ -602,6 +683,9 @@ a.sectionBar {
     line-height: 40px;
     @include x-rem(font-size, 0.8);
     background-color: rgba(138,191,75,0.25);
+    border-bottom: 1px solid #939597;
+    transition: all 0.5s ease-in-out;
+    top: 0;
     &.claim {
       background-color: rgba(138,191,75,1);
       color: #FFF;
@@ -617,7 +701,7 @@ a.sectionBar {
       @include border-box();
       height: 80px;
       line-height: normal;
-      padding: 15px;
+      padding: 15px 95px 15px 15px;
       text-align: left;
       .rewardDesc {
         @include x-rem(font-size, 0.7);
@@ -648,6 +732,7 @@ a.sectionBar {
       }
       &.claim {
         background-color: rgba(138, 191, 75, 0.75);
+        padding: 15px 120px 15px 15px;
         .prize {
           right: 25px;
           .overlay {
@@ -660,7 +745,48 @@ a.sectionBar {
           right: 5px;
         }
       }
+      &.claimed {
+        color: #000;
+        background-color: rgba(138, 191, 75, 0.15);
+        .prize {
+          right: 0;
+          .overlay {
+            background-color: rgba(255, 255, 255, 0);
+            z-index: 5;
+          }
+        }
+        .arrow {
+          top: 30px;
+          left: 5px;
+        }
+        &.selected {
+          padding: 15px 80px 15px 25px;
+        }
+      }
     }
+  }
+}
+
+#redeemBox {
+  width: 100%;
+  input[type="password"] {
+    width: 90%;
+    @include x-rem(margin, 1, 0);
+    @include x-rem(font-size, 6);
+    @include x-rem(line-height, 8);
+    @include x-rem(height, 8);
+    text-align: center;
+    border: none;
+  }
+  input[type="submit"] {
+    width: 100%;
+    border: none;
+    text-transform: uppercase;
+    @include x-rem(font-size, 1);
+    @include x-rem(line-height, 3);
+    padding: 0;
+    background-color: #000;
+    color: #FFF;
   }
 }
 

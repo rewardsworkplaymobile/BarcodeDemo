@@ -211,26 +211,30 @@ body.inner {
   max-width: 80%; }
 
 .page-scan {
-  text-align: center; }
+  text-align: center;
+  /*
+    .circle {
+      width: 41px;
+      height: 41px;
+      background-image: url('../imgs/assets.png');
+      background-repeat: no-repeat;
+      background-size: auto 80px;
+      background-position: -50px 0;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  */ }
 .page-scan .outerCircle {
   width: 90%;
   margin: 0 auto;
-  position: relative; }
+  position: relative;
+  z-index: 5; }
 .page-scan .outerCircle > img {
   vertical-align: top;
   width: 100%;
   height: auto; }
-.page-scan .circle {
-  width: 41px;
-  height: 41px;
-  background-image: url("../imgs/assets.png");
-  background-repeat: no-repeat;
-  background-size: auto 80px;
-  background-position: -50px 0;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  left: 0; }
 .page-scan .innerCircle {
   position: absolute;
   width: 95%;
@@ -256,7 +260,13 @@ body.inner {
   left: 0;
   z-index: 0;
   border-radius: 50%;
-  pointer-events: none; }
+  pointer-events: none;
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear; }
+.page-scan .innerCircle #canvas {
+  width: 100%;
+  height: 100%;
+  background: transparent; }
 .page-scan .badge {
   position: absolute;
   height: 65px;
@@ -291,6 +301,54 @@ body.inner {
 .page-scan .counter .current {
   font-size: 32px;
   font-size: 2rem; }
+.page-scan .stamp {
+  position: absolute;
+  z-index: 1;
+  height: 0;
+  width: 0;
+  height: 18.11%;
+  width: 18.11%;
+  transition: all 1s ease-in-out; }
+.page-scan .stamp:nth-child(1) {
+  left: 50%;
+  top: 25%; }
+.page-scan .stamp:nth-child(2) {
+  left: 73.7%;
+  top: 42.3%; }
+.page-scan .stamp:nth-child(3) {
+  left: 64.3%;
+  top: 70.18%; }
+.page-scan .stamp:nth-child(4) {
+  left: 35.4%;
+  top: 70.18%; }
+.page-scan .stamp:nth-child(5) {
+  left: 26.5%;
+  top: 42.3%; }
+.page-scan .stamp .circle {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  border-radius: 50%;
+  margin-top: -50%;
+  margin-left: -50%;
+  transition: all 0.5s ease-in-out;
+  background-color: #B7D490;
+  box-shadow: inset -10px -10px 70px #8abf4b, inset -10px -10px 50px #81a15e, inset -5px -5px 10px black, 0 0 5px #aaaaaa; }
+.page-scan .stamp.empty .circle {
+  background-color: #FFF;
+  box-shadow: inset 0 0 50px #555555;
+  box-shadow: inset -10px -10px 70px #cccccc, inset -10px -10px 50px #999999, inset -5px -5px 10px #555555; }
+.page-scan .innerCircle #container.complete {
+  transform: rotateZ(360deg);
+  -webkit-transform: rotateZ(360deg); }
+.page-scan .innerCircle #container.complete .stamp {
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  margin-top: 0;
+  margin-left: 0; }
 
 .scrollableContainer {
   height: 100%;
@@ -369,6 +427,15 @@ a.sectionBar {
   zoom: 1;
   *display: inline !important;
   vertical-align: middle; }
+
+.messageContent {
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center; }
 
 .rating {
   float: right;
@@ -516,7 +583,8 @@ a.sectionBar {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%; }
+  width: 100%;
+  z-index: 10; }
 .rewards .reward {
   position: relative;
   width: 100%;
@@ -529,7 +597,10 @@ a.sectionBar {
   line-height: 40px;
   font-size: 12.8px;
   font-size: 0.8rem;
-  background-color: rgba(138, 191, 75, 0.25); }
+  background-color: rgba(138, 191, 75, 0.25);
+  border-bottom: 1px solid #939597;
+  transition: all 0.5s ease-in-out;
+  top: 0; }
 .rewards .reward.claim {
   background-color: #8abf4b;
   color: #FFF;
@@ -546,7 +617,7 @@ a.sectionBar {
   box-sizing: border-box;
   height: 80px;
   line-height: normal;
-  padding: 15px;
+  padding: 15px 95px 15px 15px;
   text-align: left; }
 .page-rewards .rewards .reward .rewardDesc {
   font-size: 11.2px;
@@ -573,7 +644,8 @@ a.sectionBar {
   top: 0;
   left: 0; }
 .page-rewards .rewards .reward.claim {
-  background-color: rgba(138, 191, 75, 0.75); }
+  background-color: rgba(138, 191, 75, 0.75);
+  padding: 15px 120px 15px 15px; }
 .page-rewards .rewards .reward.claim .prize {
   right: 25px; }
 .page-rewards .rewards .reward.claim .prize .overlay {
@@ -582,6 +654,45 @@ a.sectionBar {
 .page-rewards .rewards .reward.claim .arrow {
   top: 30px;
   right: 5px; }
+.page-rewards .rewards .reward.claimed {
+  color: #000;
+  background-color: rgba(138, 191, 75, 0.15); }
+.page-rewards .rewards .reward.claimed .prize {
+  right: 0; }
+.page-rewards .rewards .reward.claimed .prize .overlay {
+  background-color: rgba(255, 255, 255, 0);
+  z-index: 5; }
+.page-rewards .rewards .reward.claimed .arrow {
+  top: 30px;
+  left: 5px; }
+.page-rewards .rewards .reward.claimed.selected {
+  padding: 15px 80px 15px 25px; }
+
+#redeemBox {
+  width: 100%; }
+#redeemBox input[type="password"] {
+  width: 90%;
+  margin: 16px 0px;
+  margin: 1rem 0rem;
+  font-size: 96px;
+  font-size: 6rem;
+  line-height: 128px;
+  line-height: 8rem;
+  height: 128px;
+  height: 8rem;
+  text-align: center;
+  border: none; }
+#redeemBox input[type="submit"] {
+  width: 100%;
+  border: none;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 48px;
+  line-height: 3rem;
+  padding: 0;
+  background-color: #000;
+  color: #FFF; }
 
 .page-leaderboards .users .user {
   width: 100%;

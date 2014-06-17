@@ -1,0 +1,249 @@
+<html>
+   <head>
+      <title>Box2dWeb Demo</title>
+   </head>
+   <body>
+      <canvas id="canvas" width="400" height="400" style="background-color:#333333;" ></canvas>
+      <div class="gyro"></div>
+   </body>
+   <script src="physics/jquery.js"></script>
+   <script src="physics/gyro.min.js"></script>
+   <script src="physics/Box2dWeb-2.1.a.3.min.js"></script>
+   <script type="text/javascript">
+      var count = 5;
+      var balls = new Array();
+      
+      $(document).ready(function() {
+      	game.initialize();
+      	game.loadUpTheCircles();
+      	sensors.init();
+      });
+      
+      var sensors = (function() {
+        return {
+          init : function() {
+            if(gyro.getFeatures().length > 0) {
+              gyro.frequency = 100;
+              
+              gyro.startTracking(function(o) {
+                $('.gyro').html(o.x+", "+o.y);
+                // changing the gravity affects all of the objects!
+                game.changeGravity(o.x, -o.y)
+              });
+            } else {
+              $('.gyro').html("gyro doesn't work here :(");
+            }
+          }
+        }
+      }());
+      
+      var game = (function() {
+          
+          var b2Vec2 = Box2D.Common.Math.b2Vec2
+            , b2AABB = Box2D.Collision.b2AABB
+            ,	b2BodyDef = Box2D.Dynamics.b2BodyDef
+            ,	b2Body = Box2D.Dynamics.b2Body
+            ,	b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+            ,	b2Fixture = Box2D.Dynamics.b2Fixture
+            ,	b2World = Box2D.Dynamics.b2World
+            ,	b2MassData = Box2D.Collision.Shapes.b2MassData
+            ,	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+            ,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+            ,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+            , b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
+            ;
+          
+          var world = new b2World(new b2Vec2(0, 0) // gravity
+            , false // don't allow sleep
+          );
+          /**
+           * All scenes for the application
+           */
+          var scenes = {};
+      
+          return {
+      
+              /**
+               * The following config variable is the global game configuration. You
+               * can set all the game related values, like sensors or game timeout.
+               */
+              config : {
+                  width : 400,
+                  height : 400,
+                  useSensor : true,
+                  debug : false,
+                  box2dDebug : true, // Box2d debug mode flag
+                  box2dScale : 30, // scale for Box2d debug mode
+                  timeout : 30,
+                  /**
+                   * All game multimedia resources
+                   */
+                  resources : [ {
+                      type : "image",
+                      src : "physics/paintlounge_ball.png"
+                  } ]
+              },
+      
+              initialize : function() {
+                //create ground
+                var fixDef = new b2FixtureDef;
+                fixDef.density = 1.0;
+                fixDef.friction = 0.5;
+                fixDef.restitution = 0.2;
+                
+                var bodyDef = new b2BodyDef;
+                bodyDef.type = b2Body.b2_staticBody;
+                fixDef.shape = new b2PolygonShape;
+                
+                fixDef.shape.SetAsBox(20, 2);
+                bodyDef.position.Set(10, 400 / 30 + 1.8);
+                world.CreateBody(bodyDef).CreateFixture(fixDef);
+                bodyDef.position.Set(10, -1.8);
+                world.CreateBody(bodyDef).CreateFixture(fixDef);
+                
+                fixDef.shape.SetAsBox(2, 14);
+                bodyDef.position.Set(-1.8, 13);
+                world.CreateBody(bodyDef).CreateFixture(fixDef);
+                bodyDef.position.Set(15.1, 13);
+                world.CreateBody(bodyDef).CreateFixture(fixDef);
+                
+                window.setInterval(this.updateBox2dWeb, 1000 / 60);
+                
+                this.setBox2dDebug();
+              },
+              getBox2dWorld : function() {
+                  return world;
+              },
+              updateBox2dWeb : function(callback) {
+                world.Step(1 / 60, 10, 10);
+                world.DrawDebugData();
+                world.ClearForces();
+              },
+              setBox2dDebug : function() {
+                var debugDraw = new b2DebugDraw();
+                debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+                debugDraw.SetDrawScale(30.0);
+                debugDraw.SetFillAlpha(0.5);
+                debugDraw.SetLineThickness(1.0);
+                debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+                world.SetDebugDraw(debugDraw);
+              },
+              loadUpTheCircles : function() {
+                for (var a = 0; a < count; a++) {
+                  setTimeout(this.addCircle, a*100);
+                }
+              },
+              addCircle : function() {
+                var fixDef = new b2FixtureDef;
+                fixDef.density = 1.0;
+                fixDef.friction = 0.5;
+                fixDef.restitution = 1.1;
+                
+                var bodyDef = new b2BodyDef;
+                bodyDef.type = b2Body.b2_dynamicBody;
+                
+                fixDef.shape = new b2CircleShape(0.9);
+                bodyDef.position.x = Math.random() * 10;
+                bodyDef.position.y = Math.random() * 10;
+                world.CreateBody(bodyDef).CreateFixture(fixDef);
+              },
+              changeGravity : function(x,y) {
+                var gravity = new b2Vec2(x,y);
+                world.SetGravity( gravity );
+              }
+          };
+      
+      }());
+
+      
+      /*
+      
+      function init() {
+         var   b2Vec2 = Box2D.Common.Math.b2Vec2
+            ,  b2AABB = Box2D.Collision.b2AABB
+         	,	b2BodyDef = Box2D.Dynamics.b2BodyDef
+         	,	b2Body = Box2D.Dynamics.b2Body
+         	,	b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+         	,	b2Fixture = Box2D.Dynamics.b2Fixture
+         	,	b2World = Box2D.Dynamics.b2World
+         	,	b2MassData = Box2D.Collision.Shapes.b2MassData
+         	,	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+         	,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+         	,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+            ,  b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
+            ;
+         
+         world = new b2World(
+               new b2Vec2(0, 10)    //gravity
+            ,  true                 //allow sleep
+         );
+         
+         var fixDef = new b2FixtureDef;
+         fixDef.density = 1.0;
+         fixDef.friction = 0.5;
+         fixDef.restitution = 0.2;
+         
+         var bodyDef = new b2BodyDef;
+         
+         //create ground
+         bodyDef.type = b2Body.b2_staticBody;
+         fixDef.shape = new b2PolygonShape;
+         
+         fixDef.shape.SetAsBox(20, 2);
+         bodyDef.position.Set(10, 400 / 30 + 1.8);
+         world.CreateBody(bodyDef).CreateFixture(fixDef);
+         bodyDef.position.Set(10, -1.8);
+         world.CreateBody(bodyDef).CreateFixture(fixDef);
+         
+         fixDef.shape.SetAsBox(2, 14);
+         bodyDef.position.Set(-1.8, 13);
+         world.CreateBody(bodyDef).CreateFixture(fixDef);
+         bodyDef.position.Set(15.1, 13);
+         world.CreateBody(bodyDef).CreateFixture(fixDef);
+         
+         
+         //create some objects
+         bodyDef.type = b2Body.b2_dynamicBody;
+         
+         //var blBD = new BitmapData("physics/paintlounge_ball.png");
+         for(var i = 0; i < 10; ++i) {
+            fixDef.shape = new b2CircleShape(0.9);
+            fixDef.restitution = 1;
+            bodyDef.position.x = Math.random() * 10;
+            bodyDef.position.y = Math.random() * 10;
+            world.CreateBody(bodyDef).CreateFixture(fixDef);
+         }
+         
+         //setup debug draw
+         var debugDraw = new b2DebugDraw();
+    			debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+    			debugDraw.SetDrawScale(30.0);
+    			debugDraw.SetFillAlpha(0.5);
+    			debugDraw.SetLineThickness(1.0);
+    			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+    			world.SetDebugDraw(debugDraw);
+         
+         window.setInterval(update, 1000 / 60);
+         
+         //update
+         
+         function update() {
+            world.Step(1 / 60, 10, 10);
+            world.DrawDebugData();
+            world.ClearForces();
+         };
+
+      
+        function changeGravity() {
+          var gravity = new b2.Vec2(9,0);
+          world.SetGravity( gravity );
+        }
+
+      };
+      
+      */
+   
+   </script>
+   
+   
+</html>
